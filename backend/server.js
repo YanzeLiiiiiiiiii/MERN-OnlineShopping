@@ -2,6 +2,8 @@ const express = require('express')
 const dotenv = require('dotenv')
 const productsRouter = require('./routes/products')
 const connectMongoDB = require('./config/db')
+const errorHandler = require('./middleware/errorHandler')
+
 
 dotenv.config({ path: '../.env' })
 
@@ -16,7 +18,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/products', productsRouter)
-
+app.use(errorHandler.notFound)
+app.use(errorHandler.errorHandler)
 app.listen(port, () => {
     console.log('Server start....')
 })

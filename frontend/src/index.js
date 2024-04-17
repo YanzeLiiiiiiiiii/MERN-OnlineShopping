@@ -2,15 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals'
-
 import { createBrowserRouter, Route, RouterProvider, createRoutesFromElements } from 'react-router-dom'
+
+import { Provider } from 'react-redux'
+import store from './redux/store'
+
 import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
 
-import axios from 'axios'
+
 import { Home } from './screeens/Home';
 import ProductDetail from './screeens/ProductDetail'
-axios.defaults.baseURL = 'http://localhost:3000/api';
+import Cart from './screeens/Cart.jsx'
+
+// axios.defaults.baseURL = 'http://localhost:3000/api';
 
 
 
@@ -19,13 +24,19 @@ const route = createBrowserRouter(
     <Route path='/' element={<App />}>
       <Route index element={<Home />} />
       <Route path='/product/:id' element={<ProductDetail />} />
+      <Route path='/cart' element={<Cart />} />
     </Route>
   )
 )
+
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={route} />
+    <Provider store={store}>
+      <RouterProvider router={route} />
+    </Provider>
   </React.StrictMode>
 );
 
