@@ -4,8 +4,11 @@ const connectMongoDB = require('./config/db')
 const cookieParse = require('cookie-parser')
 
 const errorHandler = require('./middleware/errorHandler')
+
+
 const productsRouter = require('./routes/products')
 const userRouter = require('./routes/userRoutes')
+const orderRouter = require('./routes/orderRoutes')
 
 dotenv.config({ path: '../.env' })
 
@@ -31,6 +34,8 @@ app.get('/', (req, res) => {
 //route registration
 app.use('/products', productsRouter)
 app.use('/users', userRouter)
+app.use('/orders', orderRouter)
+
 
 //error handler
 app.use(errorHandler.notFound)

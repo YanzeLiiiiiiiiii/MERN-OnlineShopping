@@ -8,7 +8,8 @@ const jwtToken = require('../utils/jwtToken')
 
 
 
-//login -- auth user get token
+// @desc login -- auth user get token
+// @route POST /users/auth
 const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({ email })
@@ -24,13 +25,14 @@ const authUser = asyncHandler(async (req, res) => {
         })
     } else {
         res.status(401)
-        throw new Error('Somthing went wrong..')
+        throw new Error('Something went wrong')
     }
 
 });
 
 
-//logout 
+// @desc logout 
+// @route POST /users/logout
 const logoutUser = (req, res) => {
     res.cookie('jwt', '', {
         httpOnly: true,
@@ -41,7 +43,9 @@ const logoutUser = (req, res) => {
 
 
 
-//user registation
+
+// @desc registation
+// @route POST /users
 const registerUser = asyncHandler(async (req, res) => {
 
     const { name, email, password } = req.body
@@ -72,7 +76,9 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 
-//get user profile
+
+// @desc get user profile
+// @route  GET /users/profile
 const getUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
     if (user) {
@@ -88,7 +94,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
     }
 });
 
-//update user profile
+
+// @desc update user profile
+// @route PUT /users/profile
 const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
     if (user) {
@@ -113,23 +121,29 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 });
 
 
-//get all user
+
+// @desc get all user
+// @route  GET /users
 const getUsers = asyncHandler(async (req, res) => {
     res.send('get users');
 });
 
 
-// delete user 
+// @desc delete user
+// @route  DELETE /users/:id
 const deleteUser = asyncHandler(async (req, res) => {
     res.send('delete user');
 });
 
-//get by id 
+// @desc get user by id
+// @route  GET /users/:id
 const getUserById = asyncHandler(async (req, res) => {
     res.send('get user by id');
 });
 
-//update user 
+
+// @desc update user by id
+// @route PUT /users/:id
 const updateUser = asyncHandler(async (req, res) => {
     res.send('update user');
 })

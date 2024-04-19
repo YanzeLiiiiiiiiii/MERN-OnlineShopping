@@ -44,7 +44,7 @@ const Register = () => {
                 dispatch(setCredentials(res))
                 navigate(q)
             } catch (error) {
-                toast.error('Something Went Wrong')
+                toast.error(error?.data?.message || error.error)
             }
         }
 

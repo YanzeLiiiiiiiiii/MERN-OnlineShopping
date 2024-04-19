@@ -16,6 +16,11 @@ import ProductDetail from './screeens/ProductDetail'
 import Cart from './screeens/Cart.jsx'
 import Login from './screeens/Login.jsx'
 import Register from './screeens/Register.jsx'
+import Shipping from './screeens/Shipping.jsx'
+import Payment from './screeens/Payment.jsx'
+import PlaceOrder from './screeens/PlaceOrder.jsx'
+import PrivateAccess from './components/PrivateAccess.jsx'
+
 // axios.defaults.baseURL = 'http://localhost:3000/api';
 
 
@@ -28,6 +33,13 @@ const route = createBrowserRouter(
       <Route path='/cart' element={<Cart />} />
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
+
+      <Route path='' element={<PrivateAccess />}>
+        <Route path='/shipping' element={<Shipping />} />
+        <Route path='/payment' element={<Payment />} />
+        <Route path='/placeorder' element={<PlaceOrder />} />
+      </Route>
+
     </Route>
   )
 )
