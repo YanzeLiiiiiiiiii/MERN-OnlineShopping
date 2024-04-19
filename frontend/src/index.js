@@ -14,7 +14,8 @@ import './assets/styles/index.css';
 import { Home } from './screeens/Home';
 import ProductDetail from './screeens/ProductDetail'
 import Cart from './screeens/Cart.jsx'
-
+import Login from './screeens/Login.jsx'
+import Register from './screeens/Register.jsx'
 // axios.defaults.baseURL = 'http://localhost:3000/api';
 
 
@@ -25,6 +26,8 @@ const route = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path='/product/:id' element={<ProductDetail />} />
       <Route path='/cart' element={<Cart />} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
     </Route>
   )
 )

@@ -14,10 +14,9 @@ const authUser = asyncHandler(async (req, res) => {
     const user = await User.findOne({ email })
 
     if (user && (await user.checkPwd(password))) {
-
         jwtToken.generateToken(res, user._id)
 
-        res.status(200).res.json({
+        res.json({
             _id: user._id,
             name: user.name,
             email: user.email,
@@ -44,6 +43,7 @@ const logoutUser = (req, res) => {
 
 //user registation
 const registerUser = asyncHandler(async (req, res) => {
+
     const { name, email, password } = req.body
 
     const userExisits = await User.findOne({ email })
