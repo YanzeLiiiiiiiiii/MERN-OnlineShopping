@@ -37,9 +37,9 @@ const PlaceOrderScreen = () => {
                 totalPrice: cart.totalPrice,
             }).unwrap()
 
-            console.log(res)
+
             dispatch(clearCart())
-            navigate(`/order/${res._id}`)
+            navigate(`/orders/${res._id}`)
         } catch (err) {
             toast.error(err);
         }
@@ -85,7 +85,7 @@ const PlaceOrderScreen = () => {
                                                     />
                                                 </Col>
                                                 <Col>
-                                                    <Link to={`/product/${item.product}`}>
+                                                    <Link to={`/product/${item._id}`}>
                                                         {item.name}
                                                     </Link>
                                                 </Col>

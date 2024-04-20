@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals'
 import { createBrowserRouter, Route, RouterProvider, createRoutesFromElements } from 'react-router-dom'
-
+import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import { Provider } from 'react-redux'
 import store from './redux/store'
 
@@ -19,6 +19,8 @@ import Register from './screeens/Register.jsx'
 import Shipping from './screeens/Shipping.jsx'
 import Payment from './screeens/Payment.jsx'
 import PlaceOrder from './screeens/PlaceOrder.jsx'
+import Order from './screeens/Order.jsx'
+import Profile from './screeens/Profile.jsx'
 import PrivateAccess from './components/PrivateAccess.jsx'
 
 // axios.defaults.baseURL = 'http://localhost:3000/api';
@@ -38,6 +40,8 @@ const route = createBrowserRouter(
         <Route path='/shipping' element={<Shipping />} />
         <Route path='/payment' element={<Payment />} />
         <Route path='/placeorder' element={<PlaceOrder />} />
+        <Route path='/orders/:id' element={<Order />} />
+        <Route path='/profile' element={<Profile />} />
       </Route>
 
     </Route>
@@ -50,7 +54,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={route} />
+      <PayPalScriptProvider deferLoading={true}>
+        <RouterProvider router={route} />
+      </PayPalScriptProvider>
     </Provider>
   </React.StrictMode>
 );

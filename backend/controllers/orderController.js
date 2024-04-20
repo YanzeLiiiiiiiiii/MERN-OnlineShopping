@@ -47,7 +47,8 @@ const createOrders = asyncHandler(async (req, res) => {
 // @desc Get user orders
 // @route GET /orders/myorders
 const getMyorder = asyncHandler(async (req, res) => {
-    const order = await Order.find({ user: req.user_id })
+
+    const order = await Order.find({ user: req.user._id })
     res.status(200).json(order)
 })
 
@@ -55,27 +56,47 @@ const getMyorder = asyncHandler(async (req, res) => {
 // @desc Get order by id
 // @route GET /orders/：id
 const getOrderById = asyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id).populate('user', 'name email')
+    const order = await Order.findById(req.params.id).populate(
+        'user',
+        'name email'
+    )
 
     if (order) {
-        res.status(404)
+        res.json(order);
     } else {
-        res.status(200)
-        throw new Error('Order not found')
+        res.status(404);
+        throw new Error('Order not found');
     }
-})
-
+});
 
 
 // @desc Confirm paid
-// @route GET /orders/：id/pay
+// @route PUT /orders/：id/pay
 const updataOrderPaid = asyncHandler(async (req, res) => {
-    res.send('updataOrderPaid')
+    const order = await Order.findById(req.params.id);
+    if (order) {
+        order.isPaid = true;
+        order.paidAt = Date.now();
+        order.paymentResult = {
+            id: req.body.id,
+            status: req.body.status,
+            update_time: req.body.update_time,
+            email_address: req.body.payer.email_address,
+        };
+
+        const updatedOrder = await order.save();
+
+        res.json(updatedOrder);
+    } else {
+        res.status(404);
+        throw new Error('Order not found');
+    }
+
 })
 
 
 // @desc Confirm delivered
-// @route GET /orders/：id/deliver
+// @route PUT /orders/：id/deliver
 const updataOrderDelivered = asyncHandler(async (req, res) => {
     res.send('updataOrderDelivered')
 })

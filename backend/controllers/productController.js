@@ -5,7 +5,6 @@ const asyncHandler = require('../middleware/asyncHandler')
 // @route GET /products
 const getAll = asyncHandler(async (req, res) => {
     const products = await Product.find({})
-    console.log(products)
     res.json(products)
 })
 

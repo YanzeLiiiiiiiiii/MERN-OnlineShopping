@@ -11,7 +11,7 @@ router.post('/login', userController.authUser)
 
 router.post('/logout', userController.logoutUser)
 
-router.route('/profile').get(authHandler.protect, userController.getUserProfile).post(authHandler.protect, userController.updateUserProfile)
+router.route('/profile').get(authHandler.protect, userController.getUserProfile).put(authHandler.protect, userController.updateUserProfile)
 
 router.route('/:id').
     delete(authHandler.protect, authHandler.admin, userController.deleteUser).

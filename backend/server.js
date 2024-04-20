@@ -35,6 +35,10 @@ app.get('/', (req, res) => {
 app.use('/products', productsRouter)
 app.use('/users', userRouter)
 app.use('/orders', orderRouter)
+app.get('/config/paypal', (req, res) => {
+    res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
+})
+
 
 
 //error handler
