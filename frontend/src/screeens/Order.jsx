@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPaypalClientIdQuery } from '../slices/orderApiSlice';
+import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPaypalClientIdQuery, useUpdateOrderMutation } from '../slices/orderApiSlice';
 
 const OrderScreen = () => {
     const { id: orderId } = useParams();
@@ -20,6 +20,8 @@ const OrderScreen = () => {
 
     const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
+    const [updateOrder, { isLoading: updateLoading }] = useUpdateOrderMutation()
+
     const { userInfo } = useSelector((state) => state.auth);
 
     const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
@@ -29,6 +31,8 @@ const OrderScreen = () => {
         isLoading: loadingPayPal,
         error: errorPayPal,
     } = useGetPaypalClientIdQuery();
+
+
 
     useEffect(() => {
         if (!errorPayPal && !loadingPayPal && paypal.clientId) {
@@ -68,6 +72,16 @@ const OrderScreen = () => {
 
         toast.success('Order is paid');
     }
+
+
+    async function onApproveTestDelivery() {
+        await updateOrder(orderId);
+        refetch();
+        toast.success('Order is deliveried')
+    }
+
+
+
 
     function onError(err) {
         toast.error(err.message);
@@ -223,7 +237,20 @@ const OrderScreen = () => {
                                     )}
                                 </ListGroup.Item>
                             )}
-                            {/* {MARK AS DELIVERED PLACEHOLDER} */}
+                            {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                                <ListGroup.Item>
+                                    {updateLoading && <Loader />}
+                                    <div>
+                                        <Button
+                                            style={{ marginBottom: '10px' }}
+                                            onClick={onApproveTestDelivery}
+                                        >
+                                            Test Delivery
+                                        </Button>
+                                    </div>
+
+                                </ListGroup.Item>
+                            )}
                         </ListGroup>
                     </Card>
                 </Col>

@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const dotenv = require('dotenv')
 const connectMongoDB = require('./config/db')
@@ -9,8 +10,10 @@ const errorHandler = require('./middleware/errorHandler')
 const productsRouter = require('./routes/products')
 const userRouter = require('./routes/userRoutes')
 const orderRouter = require('./routes/orderRoutes')
+const uploadRouter = require('./routes/uploadRoute')
 
 dotenv.config({ path: '../.env' })
+
 
 //start db
 connectMongoDB()
@@ -35,6 +38,11 @@ app.get('/', (req, res) => {
 app.use('/products', productsRouter)
 app.use('/users', userRouter)
 app.use('/orders', orderRouter)
+app.use('/upload', uploadRouter)
+
+const dirname = path.resolve();
+app.use('/uploads', express.static(path.join(dirname, '/uploads')));
+
 app.get('/config/paypal', (req, res) => {
     res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 })

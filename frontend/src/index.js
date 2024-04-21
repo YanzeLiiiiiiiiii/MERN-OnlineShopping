@@ -21,8 +21,13 @@ import Payment from './screeens/Payment.jsx'
 import PlaceOrder from './screeens/PlaceOrder.jsx'
 import Order from './screeens/Order.jsx'
 import Profile from './screeens/Profile.jsx'
+import OrdersAmin from './screeens/admin/OrdersAdmin.jsx'
 import PrivateAccess from './components/PrivateAccess.jsx'
-
+import Admin from './components/Admin.jsx'
+import Products from './screeens/admin/Products.jsx'
+import ProductEdit from './screeens/admin/ProductEdit.jsx'
+import UserList from './screeens/admin/UserList.jsx'
+import EditUser from './screeens/admin/EditUser.jsx'
 // axios.defaults.baseURL = 'http://localhost:3000/api';
 
 
@@ -43,7 +48,13 @@ const route = createBrowserRouter(
         <Route path='/orders/:id' element={<Order />} />
         <Route path='/profile' element={<Profile />} />
       </Route>
-
+      <Route path='' element={<Admin />}>
+        <Route path='/admin/orderlist' element={<OrdersAmin />} />
+        <Route path='/admin/productlist' element={<Products />} />
+        <Route path='/admin/product/:id/edit' element={<ProductEdit />} />
+        <Route path='/admin/userlist' element={<UserList />} />
+        <Route path='/admin/user/:id/edit' element={<EditUser />} />
+      </Route>
     </Route>
   )
 )

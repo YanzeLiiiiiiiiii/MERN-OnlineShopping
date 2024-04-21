@@ -98,7 +98,18 @@ const updataOrderPaid = asyncHandler(async (req, res) => {
 // @desc Confirm delivered
 // @route PUT /orders/：id/deliver
 const updataOrderDelivered = asyncHandler(async (req, res) => {
-    res.send('updataOrderDelivered')
+    const order = await Order.findById(req.params.id)
+    if (order) {
+        order.isDelivered = true
+        order.deliveredAt = Date.now()
+        const updateOrder = order.save()
+        res.status(200).json(updateOrder)
+    } else {
+
+        res.status(404);
+        throw new Error('Order not found');
+    }
+
 })
 
 
@@ -106,7 +117,8 @@ const updataOrderDelivered = asyncHandler(async (req, res) => {
 // @route GET /orders
 // @access admin
 const getAllOrders = asyncHandler(async (req, res) => {
-    res.send('getAllOrders')
+    const order = await Order.find({}).populate('user', 'id  name')
+    res.status(200).json(order)
 })
 
 

@@ -61,7 +61,20 @@ export const Header = () => {
                                 </Nav.Link>
                             </LinkContainer>)}
 
+                            {userInfo && userInfo.isAdmin && (
+                                <NavDropdown title='Admin Operations' id='Admin'>
+                                    <LinkContainer to='/admin/userlist'>
+                                        <NavDropdown.Item> Users List </NavDropdown.Item>
+                                    </LinkContainer>
+                                    <LinkContainer to='/admin/orderlist'>
+                                        <NavDropdown.Item> Orders List </NavDropdown.Item>
+                                    </LinkContainer>
+                                    <LinkContainer to='/admin/productlist'>
+                                        <NavDropdown.Item> Products List </NavDropdown.Item>
+                                    </LinkContainer>
 
+                                </NavDropdown>
+                            )}
                         </Nav>
 
                     </Navbar.Collapse>

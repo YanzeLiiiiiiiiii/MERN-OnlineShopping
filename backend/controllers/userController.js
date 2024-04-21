@@ -1,4 +1,5 @@
 
+const { message } = require('antd');
 const asyncHandler = require('../middleware/asyncHandler')
 
 
@@ -125,27 +126,64 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // @desc get all user
 // @route  GET /users
 const getUsers = asyncHandler(async (req, res) => {
-    res.send('get users');
+    const users = await User.find({})
+    res.status(200).json(users)
 });
 
 
 // @desc delete user
 // @route  DELETE /users/:id
 const deleteUser = asyncHandler(async (req, res) => {
-    res.send('delete user');
+    const user = await User.findById(req.params.id)
+    if (user) {
+        if (user.isAdmin) {
+            res.status(400)
+            throw new Error('Admin cannot be deleted')
+        } else {
+            await User.deleteOne({ _id: user._id })
+            res.status(201).json({ message: 'User delete successfully' })
+        }
+    } else {
+        res.status(404)
+        throw new Error('User Not Found')
+    }
 });
 
 // @desc get user by id
 // @route  GET /users/:id
 const getUserById = asyncHandler(async (req, res) => {
-    res.send('get user by id');
-});
+    const user = await User.findById(req.params.id).select('-password')
+    if (user) {
+        res.status(200).json(user)
+    } else {
+        res.status(404)
+        throw new Error('User Not Found')
+    }
+})
 
 
 // @desc update user by id
 // @route PUT /users/:id
 const updateUser = asyncHandler(async (req, res) => {
-    res.send('update user');
+    const user = await User.findById(req.params.id)
+
+    if (user) {
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        user.isAdmin = Boolean(req.body.isAdmin);
+
+        const updatedUser = await user.save();
+
+        res.json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+        });
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
 })
 
 module.exports = {
