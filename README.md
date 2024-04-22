@@ -52,6 +52,7 @@ npm run server
 
 <h3>Sample User Logins</h3>
 <br>
+
 ```
 admin@email.com (Admin)
 123456
