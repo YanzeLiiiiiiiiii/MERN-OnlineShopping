@@ -21,7 +21,6 @@
   
 <h3>Env Variables:</h3>
 <br>
-<br>
 
 ```
 NODE_ENV = development
@@ -44,7 +43,6 @@ npm i express //as I intalled in the gloable
 <br>
 
 ```
-
 # Run frontend (:3000) & backend (:5000)
 npm run dev
 
@@ -52,9 +50,9 @@ npm run dev
 npm run server
 ```
 
+<h3>Sample User Logins</h3>
+<br>
 ```
-Sample User Logins
-
 admin@email.com (Admin)
 123456
 
