@@ -6,6 +6,7 @@ import { useGetProductsQuery } from '../slices/productsApiSlice'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import TopProducts from '../components/TopProducts'
+import Meta from '../components/Meta'
 export const Home = () => {
 
     // const [product, setProducts] = useState([])
@@ -28,6 +29,7 @@ export const Home = () => {
             <TopProducts />
             {isLoading ? (<Loader />) : isError ? (<Message variant='danger'>Something Went Wrong</Message>) : (
                 <>
+                    <Meta title='Onlineshopping-ryan' />
                     <h1>Latest Products</h1>
                     <Row>
                         {data.products.map(item => {
