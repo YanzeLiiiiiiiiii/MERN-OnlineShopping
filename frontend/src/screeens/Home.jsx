@@ -1,8 +1,11 @@
 import { Row, Col } from 'react-bootstrap'
+import { useParams } from 'react-router-dom'
 import Product from '../components/Product'
+import PaginationComponent from '../components/Pagination'
 import { useGetProductsQuery } from '../slices/productsApiSlice'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import TopProducts from '../components/TopProducts'
 export const Home = () => {
 
     // const [product, setProducts] = useState([])
@@ -15,16 +18,19 @@ export const Home = () => {
     //     getProducts()
 
     // }, [])
+    const { pageNumber } = useParams()
 
-    const { data: products, isLoading, isError } = useGetProductsQuery()
+    const { data, isLoading, isError } = useGetProductsQuery({ pageNumber })
+
     return (
 
         <>
+            <TopProducts />
             {isLoading ? (<Loader />) : isError ? (<Message variant='danger'>Something Went Wrong</Message>) : (
                 <>
                     <h1>Latest Products</h1>
                     <Row>
-                        {products.map(item => {
+                        {data.products.map(item => {
                             return (
                                 <Col key={item._id} sm={12} md={6} lg={4} xl={3}>
 
@@ -35,6 +41,7 @@ export const Home = () => {
 
                         })}
                     </Row>
+                    <PaginationComponent pages={data.pages} page={data.page} />
                 </>
             )}
 

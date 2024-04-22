@@ -4,8 +4,14 @@ const asyncHandler = require('../middleware/asyncHandler')
 // @desc get all products
 // @route GET /products
 const getAll = asyncHandler(async (req, res) => {
-    const products = await Product.find({})
-    res.json(products)
+    const pageSIZE = 4
+    const page = Number(req.query.pageNumber) || 1
+    console.log(page)
+    const count = await Product.countDocuments({})
+
+
+    const products = await Product.find({}).limit(pageSIZE).skip(pageSIZE * (page - 1))
+    res.json({ products, page, pages: Math.ceil(count / pageSIZE) })
 })
 
 // @desc get  product by id
@@ -83,5 +89,46 @@ const deleteProduct = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc create reviews
+// @route POST /products/:id/reviews
+const createProductReview = asyncHandler(async (req, res) => {
+    const { rating, comment } = req.body;
 
-module.exports = { getAll, getById, createProduct, updateProduct, deleteProduct }
+    const product = await Product.findById(req.params.id);
+
+    if (product) {
+        const alreadyReviewed = product.reviews.find(
+            (r) => r.user.toString() === req.user._id.toString()
+        );
+
+        if (alreadyReviewed) {
+            res.status(400);
+            throw new Error('Product already reviewed');
+        }
+
+        const review = {
+            name: req.user.name,
+            rating: Number(rating),
+            comment,
+            user: req.user._id,
+        };
+
+        product.reviews.push(review);
+
+        product.numReviews = product.reviews.length;
+
+        product.rating =
+            product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+            product.reviews.length;
+
+        await product.save();
+        res.status(201).json({ message: 'Review added' });
+    } else {
+        res.status(404);
+        throw new Error('Product not found');
+    }
+});
+
+
+
+module.exports = { getAll, getById, createProduct, updateProduct, deleteProduct, createProductReview }

@@ -8,4 +8,7 @@ router.route('/').get(productController.getAll).post(authHandler.protect, authHa
 
 router.route('/:id').get(productController.getById).put(authHandler.protect, authHandler.admin, productController.updateProduct).delete(authHandler.protect, authHandler.admin, productController.deleteProduct)
 
+router.route('/:id/reviews').post(authHandler.protect, productController.createProductReview)
+
+
 module.exports = router 
