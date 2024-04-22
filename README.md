@@ -36,7 +36,7 @@ PAYPAL_CLIENT_ID = your paypal client id
 npm install
 cd frontend
 npm install
-npm i express //as I intalled in global
+npm i express 
 ```
 
 <h3>Run</h3>
