@@ -1,5 +1,5 @@
 <h3>Tech stack:</h3>
-<p>Front:React,Redux Toolkit, React Bootstrap /ui, BlockNote</p>
+<p>Front:React,Redux Toolkit, React Bootstrap /ui</p>
 <p>Back: Mongodb,Node.js,Express,JWT</p>
 
 
